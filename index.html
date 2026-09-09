@@ -4,6 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>RPG Love Quest ❤️</title>
+    <!-- Google Fonts RPG Style -->
     <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
     
     <style>
@@ -20,8 +21,10 @@
             align-items: center;
             justify-content: center;
             font-family: 'Poppins', sans-serif;
-            overflow: hidden;
             color: #fff;
+            overflow-x: hidden;
+            position: relative;
+            padding: 10px;
         }
 
         #volcanoCanvas {
@@ -43,24 +46,24 @@
             align-items: center;
             justify-content: center;
             text-align: center;
-            width: 90%;
-            max-width: 500px;
+            width: 100%;
+            max-width: 450px;
             cursor: pointer;
+            padding: 20px;
         }
 
         .rpg-title {
             font-family: 'Press Start 2P', cursive;
-            font-size: 1.2rem;
+            font-size: 1.1rem;
             color: #ff69b4;
-            text-shadow: 3px 3px 0px #ff007f, 0 0 15px #ff1493;
-            margin-bottom: 30px;
+            text-shadow: 2px 2px 0px #ff007f, 0 0 15px #ff1493;
+            margin-bottom: 25px;
             line-height: 1.6;
         }
 
-        /* Progress Bar Loading */
         .progress-box {
             width: 100%;
-            height: 24px;
+            height: 22px;
             background: rgba(255, 255, 255, 0.1);
             border: 3px solid #ff69b4;
             border-radius: 12px;
@@ -80,28 +83,40 @@
 
         .loading-subtext {
             font-family: 'Press Start 2P', cursive;
-            font-size: 0.7rem;
+            font-size: 0.65rem;
             color: #ffb6c1;
             margin-top: 10px;
             animation: blink 1s infinite;
         }
 
-        /* --- 2. MAIN MENU GAME RPG --- */
+        /* --- 2. MAIN MENU GAME RPG (RESPONSIVE & SCROLLABLE) --- */
         .rpg-menu-stage {
             position: relative;
             z-index: 10;
             display: none;
-            width: 90%;
-            max-width: 850px;
-            background: rgba(20, 0, 35, 0.85);
+            width: 100%;
+            max-width: 480px;
+            max-height: 92vh;
+            overflow-y: auto;
+            background: rgba(20, 0, 35, 0.9);
             backdrop-filter: blur(10px);
-            border: 4px solid #ff69b4;
-            border-radius: 20px;
-            box-shadow: 0 0 30px rgba(255, 20, 147, 0.6), inset 0 0 20px rgba(255, 105, 180, 0.3);
-            padding: 30px;
+            border: 3px solid #ff69b4;
+            border-radius: 18px;
+            box-shadow: 0 0 25px rgba(255, 20, 147, 0.6), inset 0 0 15px rgba(255, 105, 180, 0.3);
+            padding: 18px 15px;
             opacity: 0;
-            transform: scale(0.9);
-            transition: all 0.8s ease;
+            transform: scale(0.95);
+            transition: all 0.6s ease;
+            -webkit-overflow-scrolling: touch;
+        }
+
+        /* Custom Scrollbar Rapi */
+        .rpg-menu-stage::-webkit-scrollbar {
+            width: 6px;
+        }
+        .rpg-menu-stage::-webkit-scrollbar-thumb {
+            background: #ff1493;
+            border-radius: 10px;
         }
 
         .rpg-menu-stage.active {
@@ -114,119 +129,120 @@
         .menu-header {
             text-align: center;
             font-family: 'Press Start 2P', cursive;
-            font-size: 1rem;
+            font-size: 0.9rem;
             color: #ff69b4;
             text-shadow: 2px 2px #ff007f;
-            margin-bottom: 25px;
+            margin-bottom: 15px;
             border-bottom: 2px dashed rgba(255, 105, 180, 0.4);
-            padding-bottom: 15px;
+            padding-bottom: 10px;
         }
 
         .menu-body {
             display: flex;
-            gap: 30px;
+            flex-direction: column;
+            gap: 15px;
             align-items: center;
-            justify-content: center;
-            flex-wrap: wrap;
+            width: 100%;
         }
 
-        /* Tampilan Karakter Cewek (Heroine Profile) */
+        /* Tampilan Karakter Cewek */
         .character-card {
             display: flex;
             flex-direction: column;
             align-items: center;
             background: rgba(255, 255, 255, 0.05);
             border: 2px solid #ff1493;
-            border-radius: 15px;
-            padding: 15px;
-            box-shadow: 0 0 15px rgba(255, 20, 147, 0.4);
-            position: relative;
+            border-radius: 12px;
+            padding: 12px;
+            box-shadow: 0 0 12px rgba(255, 20, 147, 0.4);
+            width: 100%;
         }
 
         .avatar-frame {
-            width: 200px;
-            height: 250px;
-            border-radius: 10px;
+            width: 100%;
+            max-width: 240px;
+            height: 220px;
+            border-radius: 8px;
             overflow: hidden;
-            border: 3px solid #ff69b4;
-            box-shadow: 0 0 20px rgba(255, 105, 180, 0.8);
-            margin-bottom: 12px;
-            position: relative;
+            border: 2px solid #ff69b4;
+            box-shadow: 0 0 15px rgba(255, 105, 180, 0.7);
+            margin-bottom: 10px;
         }
 
         .avatar-frame img {
             width: 100%;
             height: 100%;
             object-fit: cover;
-            transition: opacity 0.5s ease-in-out;
+            transition: opacity 0.4s ease-in-out;
         }
 
         .char-stats {
             font-family: 'Press Start 2P', cursive;
-            font-size: 0.6rem;
+            font-size: 0.55rem;
             color: #ffb6c1;
-            line-height: 1.8;
+            line-height: 1.7;
             text-align: left;
             width: 100%;
+            word-break: break-word;
         }
 
-        /* --- KARAKTER PINK 8-BIT MENARI --- */
+        /* Animasi Karakter 8-Bit Menari */
         .pixel-dancer-container {
             display: flex;
             flex-direction: column;
             align-items: center;
             justify-content: center;
-            margin-bottom: 15px;
+            margin: 5px 0;
         }
 
         .pixel-dancer {
-            font-size: 3.5rem;
-            filter: drop-shadow(0 0 10px #ff1493);
+            font-size: 2.5rem;
+            filter: drop-shadow(0 0 8px #ff1493);
             animation: pixelDance 0.6s infinite alternate ease-in-out;
-            margin-bottom: 5px;
         }
 
         .dancer-label {
             font-family: 'Press Start 2P', cursive;
-            font-size: 0.55rem;
+            font-size: 0.5rem;
             color: #ff69b4;
             text-shadow: 0 0 5px #ff1493;
+            margin-top: 4px;
         }
 
-        /* Tombol Menu Game */
+        /* Opsi Tombol Menu */
         .menu-options {
             display: flex;
             flex-direction: column;
-            gap: 15px;
-            flex: 1;
-            min-width: 250px;
+            gap: 10px;
+            width: 100%;
         }
 
         .rpg-btn {
             font-family: 'Press Start 2P', cursive;
-            font-size: 0.75rem;
-            padding: 15px 20px;
-            background: linear-gradient(135deg, rgba(255, 20, 147, 0.3), rgba(255, 105, 180, 0.1));
+            font-size: 0.65rem;
+            padding: 12px 15px;
+            background: linear-gradient(135deg, rgba(255, 20, 147, 0.35), rgba(255, 105, 180, 0.15));
             border: 2px solid #ff69b4;
             color: #fff;
-            border-radius: 10px;
+            border-radius: 8px;
             cursor: pointer;
             text-align: left;
-            transition: all 0.3s;
-            box-shadow: 0 0 10px rgba(255, 20, 147, 0.3);
+            transition: all 0.2s;
+            box-shadow: 0 0 8px rgba(255, 20, 147, 0.3);
             display: flex;
             align-items: center;
-            gap: 10px;
+            justify-content: center;
+            gap: 8px;
+            width: 100%;
         }
 
-        .rpg-btn:hover {
+        .rpg-btn:active, .rpg-btn:hover {
             background: #ff1493;
-            transform: translateX(10px);
-            box-shadow: 0 0 20px #ff1493;
+            box-shadow: 0 0 15px #ff1493;
             color: #fff;
         }
 
-        /* Modal Dialog Pesan Rahasia */
+        /* Dialog Box Pesan Rahasia */
         .dialog-box {
             display: none;
             position: fixed;
@@ -235,24 +251,24 @@
             z-index: 100;
             background: rgba(10, 0, 20, 0.95);
             border: 3px solid #ff69b4;
-            border-radius: 15px;
-            padding: 25px;
-            width: 85%;
-            max-width: 500px;
-            box-shadow: 0 0 30px #ff1493;
+            border-radius: 12px;
+            padding: 20px;
+            width: 90%;
+            max-width: 420px;
+            box-shadow: 0 0 25px #ff1493;
         }
 
         .dialog-text {
-            font-size: 1rem;
+            font-size: 0.9rem;
             line-height: 1.6;
             color: #ffb6c1;
-            margin-bottom: 20px;
+            margin-bottom: 15px;
         }
 
         .close-btn {
             font-family: 'Press Start 2P', cursive;
-            font-size: 0.6rem;
-            padding: 8px 15px;
+            font-size: 0.55rem;
+            padding: 8px 12px;
             background: #ff1493;
             border: none;
             color: #fff;
@@ -261,14 +277,9 @@
             border-radius: 5px;
         }
 
-        /* KEYFRAMES ANIMASI MENARI 8-BIT */
         @keyframes pixelDance {
-            0% {
-                transform: translateY(0) scaleX(1) rotate(-5deg);
-            }
-            100% {
-                transform: translateY(-15px) scaleX(-1) rotate(5deg);
-            }
+            0% { transform: translateY(0) scaleX(1) rotate(-5deg); }
+            100% { transform: translateY(-10px) scaleX(-1) rotate(5deg); }
         }
 
         @keyframes blink {
@@ -279,12 +290,15 @@
 </head>
 <body>
 
+    <!-- Canvas Partikel Meletus -->
     <canvas id="volcanoCanvas"></canvas>
 
+    <!-- Audio BGM -->
     <video id="bgMusic" loop style="display:none;" playsinline>
         <source src="beat.mp4" type="video/mp4">
     </video>
 
+    <!-- 1. LOADING SCREEN -->
     <div class="loading-screen" id="loadingScreen" onclick="startLoading()">
         <div class="rpg-title">LOVE QUEST: MY PRINCESS ❤️</div>
         <div class="progress-box">
@@ -293,10 +307,12 @@
         <div class="loading-subtext" id="loadingText">CLICK TO START GAME ▶</div>
     </div>
 
+    <!-- 2. MAIN MENU GAME RPG -->
     <div class="rpg-menu-stage" id="rpgMenu">
         <div class="menu-header">--- MAIN MENU ---</div>
         
         <div class="menu-body">
+            <!-- Profil Karakter Cewek -->
             <div class="character-card">
                 <div class="avatar-frame">
                     <img id="charImg" src="j1.jpg" alt="My Love">
@@ -309,13 +325,14 @@
                 </div>
             </div>
 
-            <div class="menu-options">
-                
-                <div class="pixel-dancer-container">
-                    <div class="pixel-dancer">👾💖</div>
-                    <div class="dancer-label">DANCING PET 8-BIT</div>
-                </div>
+            <!-- Karakter 8-Bit Menari -->
+            <div class="pixel-dancer-container">
+                <div class="pixel-dancer">💖👾</div>
+                <div class="dancer-label">DANCING PET 8-BIT</div>
+            </div>
 
+            <!-- Opsi Pilihan Menu -->
+            <div class="menu-options">
                 <button class="rpg-btn" onclick="openNote()">
                     <span>💌</span> SECRET LOVE NOTE
                 </button>
@@ -326,6 +343,7 @@
         </div>
     </div>
 
+    <!-- Dialog Box Pesan Rahasia -->
     <div class="dialog-box" id="dialogBox">
         <div class="dialog-text" id="dialogContent">
             "Terima kasih sudah jadi bagian terbaik di hidup aku. Semesta aku terasa makin indah sejak ada kamu di dalamnya! ❤️✨"
