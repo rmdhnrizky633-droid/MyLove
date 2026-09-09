@@ -1,0 +1,300 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>My Love ❤️</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            background: linear-gradient(135deg, #ff9a9e 0%, #fecfef 99%, #feada6 100%);
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            overflow-x: hidden;
+            position: relative;
+        }
+
+        /* Container Judul */
+        .header {
+            text-align: center;
+            color: #fff;
+            text-shadow: 2px 2px 8px rgba(225, 0, 80, 0.5);
+            margin-bottom: 30px;
+            animation: fadeIn 2s ease-in-out;
+            z-index: 10;
+        }
+
+        .header h1 {
+            font-size: 2.8rem;
+            margin-bottom: 10px;
+        }
+
+        .header p {
+            font-size: 1.2rem;
+            font-style: italic;
+            opacity: 0.9;
+        }
+
+        /* Grid Tombol / Kartu Love */
+        .love-container {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 25px;
+            justify-content: center;
+            align-items: center;
+            z-index: 10;
+            padding: 20px;
+        }
+
+        .love-card {
+            background: rgba(255, 255, 255, 0.25);
+            backdrop-filter: blur(10px);
+            border: 2px solid rgba(255, 255, 255, 0.5);
+            border-radius: 20px;
+            padding: 20px 30px;
+            cursor: pointer;
+            box-shadow: 0 10px 25px rgba(233, 30, 99, 0.3);
+            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            text-align: center;
+            color: #d81b60;
+            font-size: 1.3rem;
+            font-weight: bold;
+        }
+
+        .love-card:hover {
+            transform: translateY(-10px) scale(1.05);
+            background: rgba(255, 255, 255, 0.4);
+            box-shadow: 0 15px 35px rgba(233, 30, 99, 0.5);
+        }
+
+        .love-card .heart-icon {
+            font-size: 2.5rem;
+            display: block;
+            margin-bottom: 8px;
+            animation: pulse 1.5s infinite;
+        }
+
+        /* Modal Pop-up Foto */
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.75);
+            backdrop-filter: blur(8px);
+            z-index: 100;
+            justify-content: center;
+            align-items: center;
+            opacity: 0;
+            transition: opacity 0.4s ease;
+        }
+
+        .modal.show {
+            display: flex;
+            opacity: 1;
+        }
+
+        .modal-content {
+            background: #fff;
+            padding: 15px;
+            border-radius: 20px;
+            max-width: 90%;
+            max-height: 85vh;
+            text-align: center;
+            box-shadow: 0 0 30px rgba(255, 105, 180, 0.8);
+            position: relative;
+            animation: popIn 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        }
+
+        .modal-content img {
+            width: 100%;
+            max-width: 450px;
+            max-height: 65vh;
+            object-fit: cover;
+            border-radius: 15px;
+            border: 3px solid #ff4081;
+        }
+
+        .modal-caption {
+            margin-top: 15px;
+            font-size: 1.2rem;
+            color: #e91e63;
+            font-weight: 600;
+        }
+
+        .close-btn {
+            position: absolute;
+            top: -15px;
+            right: -15px;
+            background: #ff4081;
+            color: white;
+            border: none;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            font-size: 1.5rem;
+            cursor: pointer;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.3);
+            transition: transform 0.2s;
+        }
+
+        .close-btn:hover {
+            transform: scale(1.1);
+        }
+
+        /* Animasi Hati Terbang */
+        .floating-heart {
+            position: fixed;
+            font-size: 20px;
+            color: #ff4081;
+            pointer-events: none;
+            z-index: 1;
+            animation: floatUp 4s linear infinite;
+            opacity: 0.8;
+        }
+
+        /* Keyframes Animasi */
+        @keyframes pulse {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.2); }
+            100% { transform: scale(1); }
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(-20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        @keyframes popIn {
+            0% { transform: scale(0.5); opacity: 0; }
+            100% { transform: scale(1); opacity: 1; }
+        }
+
+        @keyframes floatUp {
+            0% {
+                transform: translateY(100vh) rotate(0deg);
+                opacity: 1;
+            }
+            100% {
+                transform: translateY(-10vh) rotate(360deg);
+                opacity: 0;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Header / Judul -->
+    <div class="header">
+        <h1>For My Special Person ❤️</h1>
+        <p>Klik tombol di bawah ini untuk melihat kejutan!</p>
+    </div>
+
+    <!-- Pilihan Kenangan / Tombol Love -->
+    <div class="love-container">
+        <div class="love-card" onclick="openPhoto('j1.jpg', 'Kenangan Indah Pertama ✨')">
+            <span class="heart-icon">💖</span>
+            <span>Memory #1</span>
+        </div>
+        <div class="love-card" onclick="openPhoto('j2.jpg', 'Senyuman Favoritku 😊❤️')">
+            <span class="heart-icon">💕</span>
+            <span>Memory #2</span>
+        </div>
+        <div class="love-card" onclick="openPhoto('j3.jpg', 'Selamanya Bersamamu 👩‍❤️‍👨')">
+            <span class="heart-icon">💗</span>
+            <span>Memory #3</span>
+        </div>
+    </div>
+
+    <!-- Pop-up Foto -->
+    <div class="modal" id="photoModal">
+        <div class="modal-content">
+            <button class="close-btn" onclick="closePhoto()">&times;</button>
+            <img id="modalImg" src="" alt="Love Memory">
+            <div class="modal-caption" id="modalCaption"></div>
+        </div>
+    </div>
+
+    <script>
+        // Fungsi Buka Foto Modal + Efek Hati Bertebaran
+        function openPhoto(src, caption) {
+            const modal = document.getElementById('photoModal');
+            const img = document.getElementById('modalImg');
+            const cap = document.getElementById('modalCaption');
+
+            img.src = src;
+            cap.innerText = caption;
+            modal.classList.add('show');
+
+            // Ledakan efek hati saat diklik
+            createHeartExplosion();
+        }
+
+        // Fungsi Tutup Foto Modal
+        function closePhoto() {
+            const modal = document.getElementById('photoModal');
+            modal.classList.remove('show');
+        }
+
+        // Tutup modal jika area luar gambar diklik
+        window.onclick = function(event) {
+            const modal = document.getElementById('photoModal');
+            if (event.target == modal) {
+                closePhoto();
+            }
+        }
+
+        // Fungsi membuat latar belakang animasi hati mengapung
+        function createFloatingHearts() {
+            const hearts = ['❤️', '💖', '💕', '💗', '💓', '🌸'];
+            setInterval(() => {
+                const heart = document.createElement('div');
+                heart.classList.add('floating-heart');
+                heart.innerText = hearts[Math.floor(Math.random() * hearts.length)];
+                heart.style.left = Math.random() * 100 + 'vw';
+                heart.style.animationDuration = (Math.random() * 3 + 2) + 's';
+                heart.style.fontSize = (Math.random() * 20 + 15) + 'px';
+                document.body.appendChild(heart);
+
+                setTimeout(() => {
+                    heart.remove();
+                }, 5000);
+            }, 300);
+        }
+
+        // Ledakan hati ekstra saat tombol diklik
+        function createHeartExplosion() {
+            for (let i = 0; i < 20; i++) {
+                setTimeout(() => {
+                    const heart = document.createElement('div');
+                    heart.classList.add('floating-heart');
+                    heart.innerText = '❤️';
+                    heart.style.left = (Math.random() * 60 + 20) + 'vw';
+                    heart.style.animationDuration = (Math.random() * 2 + 1) + 's';
+                    heart.style.fontSize = (Math.random() * 30 + 20) + 'px';
+                    document.body.appendChild(heart);
+
+                    setTimeout(() => {
+                        heart.remove();
+                    }, 3000);
+                }, i * 50);
+            }
+        }
+
+        // Jalankan animasi saat halaman dimuat
+        createFloatingHearts();
+    </script>
+</body>
+              </html>
+              
