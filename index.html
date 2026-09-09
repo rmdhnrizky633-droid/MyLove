@@ -3,8 +3,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Pink Galaxy Love ❤️</title>
-    <link href="https://fonts.googleapis.com/css2?family=Great+Vibes&family=Orbitron:wght@400;700&family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
+    <title>RPG Love Quest ❤️</title>
+    <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
     
     <style>
         * {
@@ -14,287 +14,361 @@
         }
 
         body {
-            background-color: #080010;
+            background-color: #0d001a;
             min-height: 100vh;
             display: flex;
-            flex-direction: column;
             align-items: center;
             justify-content: center;
             font-family: 'Poppins', sans-serif;
             overflow: hidden;
-            position: relative;
             color: #fff;
         }
 
-        /* Canvas Galaxy & Volcano Partikel */
-        #galaxyCanvas {
+        #volcanoCanvas {
             position: fixed;
             top: 0;
             left: 0;
             width: 100%;
             height: 100%;
             z-index: 1;
+            pointer-events: none;
         }
 
-        /* 1. AMPLOP SURAT CINTA AWAL */
-        .envelope-wrapper {
+        /* --- 1. LOADING SCREEN RPG --- */
+        .loading-screen {
             position: relative;
             z-index: 10;
-            cursor: pointer;
-            text-align: center;
-            transition: all 0.5s ease;
-        }
-
-        .envelope-wrapper:hover {
-            transform: scale(1.1);
-        }
-
-        .envelope {
-            width: 170px;
-            height: 120px;
-            background: linear-gradient(135deg, #ff1493, #ff69b4);
-            border-radius: 20px;
-            box-shadow: 0 0 30px #ff1493, 0 0 60px #ff69b4;
             display: flex;
-            justify-content: center;
+            flex-direction: column;
             align-items: center;
-            margin: 0 auto 20px;
+            justify-content: center;
+            text-align: center;
+            width: 90%;
+            max-width: 500px;
+            cursor: pointer;
+        }
+
+        .rpg-title {
+            font-family: 'Press Start 2P', cursive;
+            font-size: 1.2rem;
+            color: #ff69b4;
+            text-shadow: 3px 3px 0px #ff007f, 0 0 15px #ff1493;
+            margin-bottom: 30px;
+            line-height: 1.6;
+        }
+
+        /* Progress Bar Loading */
+        .progress-box {
+            width: 100%;
+            height: 24px;
+            background: rgba(255, 255, 255, 0.1);
+            border: 3px solid #ff69b4;
+            border-radius: 12px;
+            overflow: hidden;
+            box-shadow: 0 0 15px rgba(255, 105, 180, 0.5);
+            margin-bottom: 15px;
             position: relative;
         }
 
-        .envelope::before {
-            content: '💌';
-            font-size: 3.8rem;
-            filter: drop-shadow(0 0 10px #fff);
-            animation: heartPulse 1.5s infinite;
+        .progress-fill {
+            width: 0%;
+            height: 100%;
+            background: linear-gradient(90deg, #ff1493, #ff69b4, #ffffff);
+            box-shadow: 0 0 10px #ff1493;
+            transition: width 0.2s ease;
         }
 
-        .envelope-text {
-            font-family: 'Great Vibes', cursive;
-            font-size: 2.2rem;
+        .loading-subtext {
+            font-family: 'Press Start 2P', cursive;
+            font-size: 0.7rem;
             color: #ffb6c1;
-            text-shadow: 0 0 12px #ff1493;
+            margin-top: 10px;
+            animation: blink 1s infinite;
         }
 
-        /* 2. STAGE GALAXY LOVE (TERSEMBUNYI DI AWAL) */
-        .galaxy-stage {
+        /* --- 2. MAIN MENU GAME RPG --- */
+        .rpg-menu-stage {
             position: relative;
             z-index: 10;
             display: none;
-            flex-direction: column;
-            align-items: center;
-            width: 100%;
-            max-width: 1200px;
+            width: 90%;
+            max-width: 850px;
+            background: rgba(20, 0, 35, 0.85);
+            backdrop-filter: blur(10px);
+            border: 4px solid #ff69b4;
+            border-radius: 20px;
+            box-shadow: 0 0 30px rgba(255, 20, 147, 0.6), inset 0 0 20px rgba(255, 105, 180, 0.3);
+            padding: 30px;
             opacity: 0;
-            transition: opacity 1.2s ease;
+            transform: scale(0.9);
+            transition: all 0.8s ease;
         }
 
-        .galaxy-stage.active {
+        .rpg-menu-stage.active {
             display: flex;
             opacity: 1;
+            transform: scale(1);
+            flex-direction: column;
         }
 
-        .galaxy-title {
-            font-family: 'Great Vibes', cursive;
-            font-size: 3.5rem;
+        .menu-header {
+            text-align: center;
+            font-family: 'Press Start 2P', cursive;
+            font-size: 1rem;
             color: #ff69b4;
-            text-shadow: 0 0 15px #ff1493, 0 0 30px #ff1493;
+            text-shadow: 2px 2px #ff007f;
             margin-bottom: 25px;
+            border-bottom: 2px dashed rgba(255, 105, 180, 0.4);
+            padding-bottom: 15px;
         }
 
-        /* --- MARQUEE / TEKS BERJALAN GALAXY --- */
-        .marquee-container {
-            width: 100%;
-            overflow: hidden;
-            white-space: nowrap;
-            background: rgba(255, 20, 147, 0.1);
-            border-top: 1px solid rgba(255, 105, 180, 0.4);
-            border-bottom: 1px solid rgba(255, 105, 180, 0.4);
-            padding: 10px 0;
-            margin: 15px 0;
-            box-shadow: 0 0 20px rgba(255, 20, 147, 0.2);
-        }
-
-        .marquee-text {
-            display: inline-block;
-            font-family: 'Poppins', sans-serif;
-            font-size: 1.1rem;
-            color: #ffb6c1;
-            text-shadow: 0 0 8px #ff1493;
-            letter-spacing: 2px;
-            animation: marquee 18s linear infinite;
-        }
-
-        /* --- FOTO BERJALAN / SLIDER CONTINUOUS --- */
-        .photo-slider-container {
-            width: 100%;
-            overflow: hidden;
-            padding: 30px 0;
-            position: relative;
-        }
-
-        .photo-track {
+        .menu-body {
             display: flex;
-            gap: 40px;
-            width: max-content;
-            animation: scrollPhotos 15s linear infinite;
+            gap: 30px;
+            align-items: center;
+            justify-content: center;
+            flex-wrap: wrap;
         }
 
-        .photo-card {
-            width: 240px;
-            height: 320px;
-            border-radius: 20px;
-            overflow: hidden;
-            position: relative;
+        /* Tampilan Karakter Cewek (Heroine Profile) */
+        .character-card {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
             background: rgba(255, 255, 255, 0.05);
-            backdrop-filter: blur(10px);
-            border: 2px solid rgba(255, 105, 180, 0.6);
-            box-shadow: 0 0 25px rgba(255, 20, 147, 0.5), inset 0 0 15px rgba(255, 105, 180, 0.3);
-            transition: transform 0.4s;
+            border: 2px solid #ff1493;
+            border-radius: 15px;
+            padding: 15px;
+            box-shadow: 0 0 15px rgba(255, 20, 147, 0.4);
         }
 
-        .photo-card:hover {
-            transform: scale(1.08) translateY(-10px);
-            box-shadow: 0 0 40px rgba(255, 105, 180, 0.9);
-            border-color: #ffffff;
+        .avatar-frame {
+            width: 200px;
+            height: 250px;
+            border-radius: 10px;
+            overflow: hidden;
+            border: 3px solid #ff69b4;
+            box-shadow: 0 0 20px rgba(255, 105, 180, 0.8);
+            margin-bottom: 12px;
         }
 
-        .photo-card img {
+        .avatar-frame img {
             width: 100%;
             height: 100%;
             object-fit: cover;
         }
 
-        /* Frame Neon Halo */
-        .photo-card::after {
-            content: '';
-            position: absolute;
-            top: 0; left: 0; right: 0; bottom: 0;
-            border-radius: 20px;
-            border: 1px solid rgba(255, 255, 255, 0.4);
-            pointer-events: none;
+        .char-stats {
+            font-family: 'Press Start 2P', cursive;
+            font-size: 0.6rem;
+            color: #ffb6c1;
+            line-height: 1.8;
+            text-align: left;
+            width: 100%;
         }
 
-        /* Tombol Musik */
-        .music-btn {
-            position: fixed;
-            top: 20px;
-            right: 20px;
-            z-index: 100;
-            background: rgba(255, 20, 147, 0.2);
-            border: 1px solid rgba(255, 105, 180, 0.5);
-            width: 45px;
-            height: 45px;
-            border-radius: 50%;
+        /* Tombol Menu Game */
+        .menu-options {
             display: flex;
-            justify-content: center;
-            align-items: center;
+            flex-direction: column;
+            gap: 15px;
+            flex: 1;
+            min-width: 250px;
+        }
+
+        .rpg-btn {
+            font-family: 'Press Start 2P', cursive;
+            font-size: 0.75rem;
+            padding: 15px 20px;
+            background: linear-gradient(135deg, rgba(255, 20, 147, 0.3), rgba(255, 105, 180, 0.1));
+            border: 2px solid #ff69b4;
+            color: #fff;
+            border-radius: 10px;
             cursor: pointer;
-            box-shadow: 0 0 15px rgba(255, 20, 147, 0.6);
-            font-size: 1.2rem;
-            backdrop-filter: blur(5px);
+            text-align: left;
+            transition: all 0.3s;
+            box-shadow: 0 0 10px rgba(255, 20, 147, 0.3);
+            display: flex;
+            align-items: center;
+            gap: 10px;
         }
 
-        /* KEYFRAMES ANIMASI */
-        @keyframes heartPulse {
-            0%, 100% { transform: scale(1); }
-            50% { transform: scale(1.15); }
+        .rpg-btn:hover {
+            background: #ff1493;
+            transform: translateX(10px);
+            box-shadow: 0 0 20px #ff1493;
+            color: #fff;
         }
 
-        @keyframes marquee {
-            0% { transform: translateX(100vw); }
-            100% { transform: translateX(-100%); }
+        /* Modal Dialog Pesan Rahasia */
+        .dialog-box {
+            display: none;
+            position: fixed;
+            top: 50%; left: 50%;
+            transform: translate(-50%, -50%);
+            z-index: 100;
+            background: rgba(10, 0, 20, 0.95);
+            border: 3px solid #ff69b4;
+            border-radius: 15px;
+            padding: 25px;
+            width: 85%;
+            max-width: 500px;
+            box-shadow: 0 0 30px #ff1493;
         }
 
-        @keyframes scrollPhotos {
-            0% { transform: translateX(0); }
-            100% { transform: translateX(calc(-280px * 3)); } /* Bergerak looping melintasi 3 foto */
+        .dialog-text {
+            font-size: 1rem;
+            line-height: 1.6;
+            color: #ffb6c1;
+            margin-bottom: 20px;
+        }
+
+        .close-btn {
+            font-family: 'Press Start 2P', cursive;
+            font-size: 0.6rem;
+            padding: 8px 15px;
+            background: #ff1493;
+            border: none;
+            color: #fff;
+            cursor: pointer;
+            float: right;
+            border-radius: 5px;
+        }
+
+        @keyframes blink {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.3; }
         }
     </style>
 </head>
 <body>
 
-    <canvas id="galaxyCanvas"></canvas>
+    <canvas id="volcanoCanvas"></canvas>
 
     <video id="bgMusic" loop style="display:none;" playsinline>
         <source src="beat.mp4" type="video/mp4">
     </video>
 
-    <div class="music-btn" onclick="toggleMusic()">
-        <span id="musicIcon">🎵</span>
+    <div class="loading-screen" id="loadingScreen" onclick="startLoading()">
+        <div class="rpg-title">LOVE QUEST: MY PRINCESS ❤️</div>
+        <div class="progress-box">
+            <div class="progress-fill" id="progressFill"></div>
+        </div>
+        <div class="loading-subtext" id="loadingText">CLICK TO START GAME ▶</div>
     </div>
 
-    <div class="envelope-wrapper" id="envelopeWrapper" onclick="openSurat(event)">
-        <div class="envelope"></div>
-        <div class="envelope-text">Buka Galaxy Cinta ❤️</div>
-    </div>
-
-    <div class="galaxy-stage" id="galaxyStage">
+    <div class="rpg-menu-stage" id="rpgMenu">
+        <div class="menu-header">--- MAIN MENU ---</div>
         
-        <h1 class="galaxy-title">You Are My Universe ✨❤️</h1>
+        <div class="menu-body">
+            <div class="character-card">
+                <div class="avatar-frame">
+                    <img id="charImg" src="j1.jpg" alt="My Love">
+                </div>
+                <div class="char-stats">
+                    NAME : My Favorite Girl<br>
+                    CLASS: Cutest Princess ✨<br>
+                    HP   : 100/100 (Full Love)<br>
+                    LVL  : MAX (Unconditional)
+                </div>
+            </div>
 
-        <div class="marquee-container">
-            <div class="marquee-text">
-                💖 Aku mencintaimu seluas galaksi ini... ✨ Kamu adalah bintang terindah di semesta hidupku 🌸 Setiap detik bersamamu adalah kenangan manis yang takkan pernah pudar 💕
+            <div class="menu-options">
+                <button class="rpg-btn" onclick="nextPhoto()">
+                    <span>🖼️</span> CHANGE PHOTO
+                </button>
+                <button class="rpg-btn" onclick="openNote()">
+                    <span>💌</span> SECRET LOVE NOTE
+                </button>
+                <button class="rpg-btn" onclick="toggleMusic()">
+                    <span>🎵</span> BGM: <span id="bgmStatus">PLAYING</span>
+                </button>
             </div>
         </div>
+    </div>
 
-        <div class="photo-slider-container">
-            <div class="photo-track">
-                <div class="photo-card"><img src="j1.jpg" alt="Galaxy Memory 1"></div>
-                <div class="photo-card"><img src="j2.jpg" alt="Galaxy Memory 2"></div>
-                <div class="photo-card"><img src="j3.jpg" alt="Galaxy Memory 3"></div>
-                <div class="photo-card"><img src="j1.jpg" alt="Galaxy Memory 1"></div>
-                <div class="photo-card"><img src="j2.jpg" alt="Galaxy Memory 2"></div>
-                <div class="photo-card"><img src="j3.jpg" alt="Galaxy Memory 3"></div>
-            </div>
+    <div class="dialog-box" id="dialogBox">
+        <div class="dialog-text" id="dialogContent">
+            "Terima kasih sudah jadi bagian terbaik di hidup aku. Semesta aku terasa makin indah sejak ada kamu di dalamnya! ❤️✨"
         </div>
-
-        <div class="marquee-container">
-            <div class="marquee-text" style="animation-duration: 22s; animation-direction: reverse;">
-                🌹 I Love You More Than Words Can Say ✨ Selamanya Menyinariku 💖 Kenangan Terindah Bersamamu 💕
-            </div>
-        </div>
-
+        <button class="close-btn" onclick="closeNote()">CLOSE [X]</button>
     </div>
 
     <script>
-        // --- 1. MUSIK & SURAT ---
+        const photos = ["j1.jpg", "j2.jpg", "j3.jpg"];
+        let currentPhotoIdx = 0;
+
         const audio = document.getElementById('bgMusic');
         let isPlaying = false;
+        let isLoaded = false;
 
-        function toggleMusic() {
-            if (isPlaying) {
-                audio.pause();
-                isPlaying = false;
-                document.getElementById('musicIcon').innerText = '🔇';
-            } else {
-                audio.play();
-                isPlaying = true;
-                document.getElementById('musicIcon').innerText = '🎶';
-            }
-        }
+        // ANIMASI LOADING BAR
+        function startLoading() {
+            if (isLoaded) return;
+            isLoaded = true;
 
-        function openSurat(e) {
             audio.play();
             isPlaying = true;
 
-            const env = document.getElementById('envelopeWrapper');
-            env.style.opacity = '0';
-            env.style.transform = 'scale(0)';
-            setTimeout(() => env.style.display = 'none', 500);
+            const fill = document.getElementById('progressFill');
+            const text = document.getElementById('loadingText');
+            let progress = 0;
 
-            // Trigger Gunung Meletus Hati Pink
-            triggerVolcano(e.clientX || window.innerWidth/2, e.clientY || window.innerHeight/2);
+            text.innerText = "LOADING LOVE STORY...";
 
-            // Tampilkan Galaxy Stage
-            setTimeout(() => {
-                document.getElementById('galaxyStage').classList.add('active');
-            }, 800);
+            const interval = setInterval(() => {
+                progress += Math.floor(Math.random() * 15) + 5;
+                if (progress >= 100) {
+                    progress = 100;
+                    clearInterval(interval);
+                    
+                    // Efek Meletus saat 100%
+                    triggerVolcano(window.innerWidth / 2, window.innerHeight / 2);
+
+                    // Pindah ke Main Menu RPG
+                    setTimeout(() => {
+                        document.getElementById('loadingScreen').style.display = 'none';
+                        document.getElementById('rpgMenu').classList.add('active');
+                    }, 600);
+                }
+                fill.style.width = progress + "%";
+            }, 150);
         }
 
-        // --- 2. CANVAS ANIMASI GALAXY PINK & VOLCANO MELETUS ---
-        const canvas = document.getElementById('galaxyCanvas');
+        // FITUR MENU
+        function nextPhoto() {
+            currentPhotoIdx = (currentPhotoIdx + 1) % photos.length;
+            const img = document.getElementById('charImg');
+            img.style.opacity = 0;
+            setTimeout(() => {
+                img.src = photos[currentPhotoIdx];
+                img.style.opacity = 1;
+            }, 200);
+        }
+
+        function openNote() {
+            document.getElementById('dialogBox').style.display = 'block';
+        }
+
+        function closeNote() {
+            document.getElementById('dialogBox').style.display = 'none';
+        }
+
+        function toggleMusic() {
+            const status = document.getElementById('bgmStatus');
+            if (isPlaying) {
+                audio.pause();
+                isPlaying = false;
+                status.innerText = 'MUTED';
+            } else {
+                audio.play();
+                isPlaying = true;
+                status.innerText = 'PLAYING';
+            }
+        }
+
+        // CANVAS PARTIKEL MELETUS (VOLCANO)
+        const canvas = document.getElementById('volcanoCanvas');
         const ctx = canvas.getContext('2d');
 
         function resizeCanvas() {
@@ -304,37 +378,6 @@
         resizeCanvas();
         window.addEventListener('resize', resizeCanvas);
 
-        // Bintang Galaksi Latar Belakang
-        class Star {
-            constructor() {
-                this.reset();
-            }
-            reset() {
-                this.x = Math.random() * canvas.width;
-                this.y = Math.random() * canvas.height;
-                this.size = Math.random() * 2 + 0.5;
-                this.alpha = Math.random() * 0.8 + 0.2;
-                this.speed = Math.random() * 0.02 + 0.005;
-            }
-            update() {
-                this.alpha += this.speed;
-                if (this.alpha > 1 || this.alpha < 0.2) {
-                    this.speed = -this.speed;
-                }
-            }
-            draw() {
-                ctx.fillStyle = `rgba(255, 182, 193, ${this.alpha})`;
-                ctx.shadowBlur = 8;
-                ctx.shadowColor = '#ff69b4';
-                ctx.beginPath();
-                ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
-                ctx.fill();
-            }
-        }
-
-        const stars = Array.from({ length: 150 }, () => new Star());
-
-        // Partikel Hati Meletus (Volcano)
         let volcanoParticles = [];
 
         class VolcanoParticle {
@@ -342,18 +385,18 @@
                 this.x = x;
                 this.y = y;
                 const angle = (Math.random() * Math.PI) + Math.PI; 
-                const speed = Math.random() * 28 + 12;
+                const speed = Math.random() * 25 + 10;
                 
-                this.vx = Math.cos(angle) * (Math.random() * 20 - 10);
+                this.vx = Math.cos(angle) * (Math.random() * 18 - 9);
                 this.vy = Math.sin(angle) * speed;
-                this.gravity = 0.45;
+                this.gravity = 0.4;
                 
-                this.size = Math.random() * 28 + 15;
+                this.size = Math.random() * 25 + 12;
                 this.alpha = 1;
                 this.decay = Math.random() * 0.015 + 0.005;
                 
-                const pinkShades = ['#ff1493', '#ff69b4', '#ffb6c1', '#ffffff', '#ff007f'];
-                this.color = pinkShades[Math.floor(Math.random() * pinkShades.length)];
+                const shades = ['#ff1493', '#ff69b4', '#ffb6c1', '#ffffff'];
+                this.color = shades[Math.floor(Math.random() * shades.length)];
             }
 
             update() {
@@ -368,7 +411,7 @@
                 ctx.save();
                 ctx.globalAlpha = Math.max(this.alpha, 0);
                 ctx.font = `${this.size}px serif`;
-                ctx.shadowBlur = 20;
+                ctx.shadowBlur = 15;
                 ctx.shadowColor = '#ff1493';
                 ctx.fillText('❤️', this.x, this.y);
                 ctx.restore();
@@ -376,31 +419,19 @@
         }
 
         function triggerVolcano(originX, originY) {
-            for (let i = 0; i < 200; i++) {
+            for (let i = 0; i < 180; i++) {
                 volcanoParticles.push(new VolcanoParticle(originX, originY));
             }
         }
 
-        // Loop Animasi Utama
         function render() {
             ctx.clearRect(0, 0, canvas.width, canvas.height);
-
-            // Gambar Galaksi Bintang
-            stars.forEach(s => {
-                s.update();
-                s.draw();
-            });
-
-            // Gambar Partikel Meletus
             for (let i = volcanoParticles.length - 1; i >= 0; i--) {
                 const p = volcanoParticles[i];
                 p.update();
                 p.draw();
-                if (p.alpha <= 0) {
-                    volcanoParticles.splice(i, 1);
-                }
+                if (p.alpha <= 0) volcanoParticles.splice(i, 1);
             }
-
             requestAnimationFrame(render);
         }
         render();
