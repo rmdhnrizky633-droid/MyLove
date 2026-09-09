@@ -140,6 +140,7 @@
             border-radius: 15px;
             padding: 15px;
             box-shadow: 0 0 15px rgba(255, 20, 147, 0.4);
+            position: relative;
         }
 
         .avatar-frame {
@@ -150,12 +151,14 @@
             border: 3px solid #ff69b4;
             box-shadow: 0 0 20px rgba(255, 105, 180, 0.8);
             margin-bottom: 12px;
+            position: relative;
         }
 
         .avatar-frame img {
             width: 100%;
             height: 100%;
             object-fit: cover;
+            transition: opacity 0.5s ease-in-out;
         }
 
         .char-stats {
@@ -165,6 +168,29 @@
             line-height: 1.8;
             text-align: left;
             width: 100%;
+        }
+
+        /* --- KARAKTER PINK 8-BIT MENARI --- */
+        .pixel-dancer-container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 15px;
+        }
+
+        .pixel-dancer {
+            font-size: 3.5rem;
+            filter: drop-shadow(0 0 10px #ff1493);
+            animation: pixelDance 0.6s infinite alternate ease-in-out;
+            margin-bottom: 5px;
+        }
+
+        .dancer-label {
+            font-family: 'Press Start 2P', cursive;
+            font-size: 0.55rem;
+            color: #ff69b4;
+            text-shadow: 0 0 5px #ff1493;
         }
 
         /* Tombol Menu Game */
@@ -235,6 +261,16 @@
             border-radius: 5px;
         }
 
+        /* KEYFRAMES ANIMASI MENARI 8-BIT */
+        @keyframes pixelDance {
+            0% {
+                transform: translateY(0) scaleX(1) rotate(-5deg);
+            }
+            100% {
+                transform: translateY(-15px) scaleX(-1) rotate(5deg);
+            }
+        }
+
         @keyframes blink {
             0%, 100% { opacity: 1; }
             50% { opacity: 0.3; }
@@ -274,9 +310,12 @@
             </div>
 
             <div class="menu-options">
-                <button class="rpg-btn" onclick="nextPhoto()">
-                    <span>🖼️</span> CHANGE PHOTO
-                </button>
+                
+                <div class="pixel-dancer-container">
+                    <div class="pixel-dancer">👾💖</div>
+                    <div class="dancer-label">DANCING PET 8-BIT</div>
+                </div>
+
                 <button class="rpg-btn" onclick="openNote()">
                     <span>💌</span> SECRET LOVE NOTE
                 </button>
@@ -302,6 +341,19 @@
         let isPlaying = false;
         let isLoaded = false;
 
+        // FOTO AUTOMATIS BERGANTI SETIAP 3.5 DETIK
+        function startAutoSlide() {
+            setInterval(() => {
+                currentPhotoIdx = (currentPhotoIdx + 1) % photos.length;
+                const img = document.getElementById('charImg');
+                img.style.opacity = 0;
+                setTimeout(() => {
+                    img.src = photos[currentPhotoIdx];
+                    img.style.opacity = 1;
+                }, 300);
+            }, 3500);
+        }
+
         // ANIMASI LOADING BAR
         function startLoading() {
             if (isLoaded) return;
@@ -325,10 +377,11 @@
                     // Efek Meletus saat 100%
                     triggerVolcano(window.innerWidth / 2, window.innerHeight / 2);
 
-                    // Pindah ke Main Menu RPG
+                    // Pindah ke Main Menu RPG & Jalankan Slideshow Otomatis
                     setTimeout(() => {
                         document.getElementById('loadingScreen').style.display = 'none';
                         document.getElementById('rpgMenu').classList.add('active');
+                        startAutoSlide();
                     }, 600);
                 }
                 fill.style.width = progress + "%";
@@ -336,16 +389,6 @@
         }
 
         // FITUR MENU
-        function nextPhoto() {
-            currentPhotoIdx = (currentPhotoIdx + 1) % photos.length;
-            const img = document.getElementById('charImg');
-            img.style.opacity = 0;
-            setTimeout(() => {
-                img.src = photos[currentPhotoIdx];
-                img.style.opacity = 1;
-            }, 200);
-        }
-
         function openNote() {
             document.getElementById('dialogBox').style.display = 'block';
         }
