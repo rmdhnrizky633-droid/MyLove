@@ -3,8 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>I Love You ❤️</title>
-    <!-- Google Fonts -->
+    <title>My Love Story ❤️</title>
     <link href="https://fonts.googleapis.com/css2?family=Great+Vibes&family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
     
     <style>
@@ -15,7 +14,7 @@
         }
 
         body {
-            background-color: #000005;
+            background-color: #0d001a;
             min-height: 100vh;
             display: flex;
             flex-direction: column;
@@ -24,86 +23,155 @@
             font-family: 'Poppins', sans-serif;
             overflow: hidden;
             position: relative;
+            color: #fff;
         }
 
-        /* Canvas Partikel Hati Glowing */
-        #heartCanvas {
-            position: absolute;
+        /* Canvas Partikel Meletus */
+        #volcanoCanvas {
+            position: fixed;
             top: 0;
             left: 0;
             width: 100%;
             height: 100%;
-            z-index: 1;
+            z-index: 5;
+            pointer-events: none;
         }
 
-        /* Container Foto & Teks di Tengah Hati */
-        .content-container {
+        /* 1. STAGE SURAT CINTA */
+        .envelope-wrapper {
             position: relative;
             z-index: 10;
+            cursor: pointer;
+            text-align: center;
+            transition: transform 0.5s ease, opacity 0.8s ease;
+        }
+
+        .envelope-wrapper:hover {
+            transform: scale(1.08);
+        }
+
+        .envelope {
+            width: 180px;
+            height: 130px;
+            background: linear-gradient(135deg, #ff4081, #ff7597);
+            border-radius: 15px;
+            position: relative;
+            box-shadow: 0 0 30px rgba(255, 64, 129, 0.8), 0 0 60px rgba(255, 117, 151, 0.4);
             display: flex;
+            justify-content: center;
+            align-items: center;
+            margin: 0 auto 20px;
+        }
+
+        .envelope::before {
+            content: '💌';
+            font-size: 4rem;
+            filter: drop-shadow(0 0 10px rgba(255,255,255,0.8));
+            animation: pulseHeart 1.5s infinite;
+        }
+
+        .envelope-text {
+            font-family: 'Great Vibes', cursive;
+            font-size: 2.2rem;
+            color: #ffb3c1;
+            text-shadow: 0 0 10px #ff4081;
+        }
+
+        /* 2. STAGE HOLOGRAM FOTO (TERSEMBUNYI DI AWAL) */
+        .hologram-stage {
+            position: relative;
+            z-index: 10;
+            display: none;
             flex-direction: column;
             align-items: center;
-            justify-content: center;
-            text-align: center;
-            pointer-events: none; /* Agar klik tetap menembus ke canvas */
-        }
-
-        /* Teks Judul Glowing */
-        .title {
-            font-family: 'Great Vibes', cursive;
-            font-size: 4rem;
-            color: #4facfe;
-            text-shadow: 0 0 10px #00f2fe, 0 0 20px #00f2fe, 0 0 40px #00f2fe;
-            margin-bottom: 25px;
-            animation: glowPulse 2s infinite alternate;
-        }
-
-        /* Bingkai Foto Berbentuk Hati & Slideshow Otomatis */
-        .photo-frame {
-            width: 200px;
-            height: 200px;
-            position: relative;
-            /* Masking CSS agar Foto Terpotong Menjadi Bentuk Hati */
-            clip-path: path('M 100,30 C 100,30 80,0 40,0 C 15,0 0,20 0,50 C 0,90 100,160 100,160 C 100,160 200,90 200,50 C 200,20 185,0 160,0 C 120,0 100,30 100,30 Z');
-            box-shadow: 0 0 25px rgba(0, 242, 254, 0.8);
-            margin-bottom: 20px;
-        }
-
-        .photo-frame img {
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-            position: absolute;
-            top: 0;
-            left: 0;
             opacity: 0;
-            transition: opacity 1.5s ease-in-out, transform 1.5s ease-in-out;
-            transform: scale(0.9);
+            transform: scale(0.8);
+            transition: opacity 1.2s ease, transform 1.2s cubic-bezier(0.175, 0.885, 0.32, 1.275);
         }
 
-        .photo-frame img.active {
+        .hologram-stage.active {
+            display: flex;
             opacity: 1;
             transform: scale(1);
         }
 
-        /* Caption Teks Otomatis */
-        .caption {
-            color: #ffffff;
-            font-size: 1.1rem;
-            font-weight: 300;
-            letter-spacing: 1px;
-            text-shadow: 0 0 8px rgba(0, 242, 254, 0.8);
-            min-height: 30px;
+        .title {
+            font-family: 'Great Vibes', cursive;
+            font-size: 3.8rem;
+            color: #ff65a3;
+            text-shadow: 0 0 15px #ff007f, 0 0 30px #ff007f;
+            margin-bottom: 30px;
         }
 
-        /* Tombol Musik Melayang */
+        /* Container 3 Foto Berjejer Hologram */
+        .hologram-container {
+            display: flex;
+            gap: 20px;
+            justify-content: center;
+            align-items: center;
+            flex-wrap: wrap;
+            perspective: 1000px;
+        }
+
+        .holo-card {
+            width: 180px;
+            height: 250px;
+            position: relative;
+            border-radius: 15px;
+            overflow: hidden;
+            background: rgba(255, 0, 128, 0.05);
+            border: 2px solid rgba(255, 105, 180, 0.6);
+            box-shadow: 0 0 20px rgba(255, 0, 128, 0.5), inset 0 0 15px rgba(255, 0, 128, 0.3);
+            transition: all 0.4s ease;
+            animation: holoFloat 3s infinite ease-in-out alternate;
+        }
+
+        .holo-card:nth-child(2) {
+            animation-delay: 0.5s;
+        }
+        .holo-card:nth-child(3) {
+            animation-delay: 1s;
+        }
+
+        .holo-card:hover {
+            transform: translateY(-15px) scale(1.08) rotateY(10deg);
+            box-shadow: 0 0 40px rgba(255, 105, 180, 0.9), 0 0 80px rgba(255, 0, 128, 0.6);
+            border-color: #ff3399;
+        }
+
+        .holo-card img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            filter: saturate(1.2) contrast(1.1);
+        }
+
+        /* Garis Proyeksi Laser Hologram */
+        .holo-card::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(
+                180deg,
+                transparent 0%,
+                rgba(255, 105, 180, 0.25) 50%,
+                transparent 100%
+            );
+            animation: holoScan 2.5s infinite linear;
+            pointer-events: none;
+        }
+
+        /* Tombol Musik */
         .music-btn {
             position: fixed;
             top: 20px;
             right: 20px;
             z-index: 100;
-            background: rgba(0, 242, 254, 0.15);
-            border: 1px solid rgba(0, 242, 254, 0.4);
+            background: rgba(255, 64, 129, 0.2);
+            border: 1px solid rgba(255, 64, 129, 0.5);
             width: 45px;
             height: 45px;
             border-radius: 50%;
@@ -111,91 +179,63 @@
             justify-content: center;
             align-items: center;
             cursor: pointer;
-            box-shadow: 0 0 15px rgba(0, 242, 254, 0.4);
-            color: #fff;
+            box-shadow: 0 0 15px rgba(255, 64, 129, 0.5);
             font-size: 1.2rem;
             backdrop-filter: blur(5px);
-            transition: transform 0.3s;
         }
 
-        .music-btn:hover {
-            transform: scale(1.1);
+        /* Keyframes */
+        @keyframes pulseHeart {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.15); }
         }
 
-        @keyframes glowPulse {
-            from {
-                text-shadow: 0 0 10px #00f2fe, 0 0 20px #00f2fe;
-            }
-            to {
-                text-shadow: 0 0 20px #00f2fe, 0 0 35px #00f2fe, 0 0 50px #4facfe;
-            }
+        @keyframes holoFloat {
+            0% { transform: translateY(0px) rotateX(0deg); }
+            100% { transform: translateY(-12px) rotateX(5deg); }
+        }
+
+        @keyframes holoScan {
+            0% { transform: translateY(-100%); }
+            100% { transform: translateY(100%); }
         }
     </style>
 </head>
 <body>
 
-    <!-- Canvas Partikel Hati -->
-    <canvas id="heartCanvas"></canvas>
+    <canvas id="volcanoCanvas"></canvas>
 
-    <!-- Audio Autoplay beat.mp4 -->
     <video id="bgMusic" loop style="display:none;" playsinline>
         <source src="beat.mp4" type="video/mp4">
     </video>
 
-    <!-- Tombol Kontrol Musik -->
     <div class="music-btn" onclick="toggleMusic()">
         <span id="musicIcon">🎵</span>
     </div>
 
-    <!-- Konten Foto & Teks -->
-    <div class="content-container">
-        <h1 class="title">I Love You</h1>
+    <div class="envelope-wrapper" id="envelopeWrapper" onclick="openSurat(event)">
+        <div class="envelope"></div>
+        <div class="envelope-text">Buka Surat Cinta ❤️</div>
+    </div>
 
-        <!-- Bingkai Foto Hati yang Berganti Otomatis -->
-        <div class="photo-frame">
-            <img src="j1.jpg" class="slide active" alt="Foto 1">
-            <img src="j2.jpg" class="slide" alt="Foto 2">
-            <img src="j3.jpg" class="slide" alt="Foto 3">
+    <div class="hologram-stage" id="hologramStage">
+        <h1 class="title">My Infinite Love ❤️</h1>
+        <div class="hologram-container">
+            <div class="holo-card">
+                <img src="j1.jpg" alt="Memory 1">
+            </div>
+            <div class="holo-card">
+                <img src="j2.jpg" alt="Memory 2">
+            </div>
+            <div class="holo-card">
+                <img src="j3.jpg" alt="Memory 3">
+            </div>
         </div>
-
-        <div class="caption" id="captionText">Kamu adalah alasan tersenyumku ✨</div>
     </div>
 
     <script>
-        // --- 1. SLIDESHOW FOTO OTOMATIS BERGANTI ---
-        const slides = document.querySelectorAll('.slide');
-        const captions = [
-            "Kamu adalah alasan tersenyumku ✨",
-            "Setiap detik bersamamu sangat berharga ❤️",
-            "Selamanya menyayangimu 💖"
-        ];
-        const captionEl = document.getElementById('captionText');
-        let currentSlide = 0;
-
-        function nextSlide() {
-            slides[currentSlide].classList.remove('active');
-            currentSlide = (currentSlide + 1) % slides.length;
-            slides[currentSlide].classList.add('active');
-            captionEl.innerText = captions[currentSlide];
-        }
-
-        // Foto berganti otomatis setiap 3.5 detik (3500ms)
-        setInterval(nextSlide, 3500);
-
-        // --- 2. AUTOPLAY MUSIK (beat.mp4) ---
         const audio = document.getElementById('bgMusic');
         let isPlaying = false;
-
-        function playMusic() {
-            audio.play().then(() => {
-                isPlaying = true;
-                document.getElementById('musicIcon').innerText = '🎶';
-            }).catch(() => {});
-        }
-
-        document.body.addEventListener('click', () => {
-            if (!isPlaying) playMusic();
-        }, { once: true });
 
         function toggleMusic() {
             if (isPlaying) {
@@ -209,10 +249,30 @@
             }
         }
 
-        window.onload = () => { playMusic(); };
+        // AKSI SAAT SURAT DIKLIK
+        function openSurat(e) {
+            // 1. Putar Musik
+            audio.play();
+            isPlaying = true;
 
-        // --- 3. ANIMASI PARTIKEL HATI GLOWING (SESUAI GAMBAR) ---
-        const canvas = document.getElementById('heartCanvas');
+            // 2. Sembunyikan Surat Cinta
+            const env = document.getElementById('envelopeWrapper');
+            env.style.opacity = '0';
+            env.style.transform = 'scale(0)';
+            setTimeout(() => env.style.display = 'none', 500);
+
+            // 3. Efek Gunung Meletus Partikel Pink
+            triggerHeartVolcano(e.clientX || window.innerWidth/2, e.clientY || window.innerHeight/2);
+
+            // 4. Tampilkan 3 Foto Hologram setelah letusan puncak
+            setTimeout(() => {
+                const holo = document.getElementById('hologramStage');
+                holo.classList.add('active');
+            }, 1000);
+        }
+
+        // ANIMASI GUNUNG MELETUS (HEART VOLCANO)
+        const canvas = document.getElementById('volcanoCanvas');
         const ctx = canvas.getContext('2d');
 
         function resizeCanvas() {
@@ -222,74 +282,67 @@
         resizeCanvas();
         window.addEventListener('resize', resizeCanvas);
 
-        // Rumus Matematika Kurva Bentuk Hati
-        function heartEquation(t) {
-            const x = 16 * Math.pow(Math.sin(t), 3);
-            const y = -(13 * Math.cos(t) - 5 * Math.cos(2*t) - 2 * Math.cos(3*t) - Math.cos(4*t));
-            return { x, y };
-        }
+        let volcanoParticles = [];
 
-        class HeartParticle {
-            constructor() {
-                this.reset();
-            }
-
-            reset() {
-                this.t = Math.random() * Math.PI * 2;
-                const pos = heartEquation(this.t);
+        class VolcanoParticle {
+            constructor(x, y) {
+                this.x = x;
+                this.y = y;
+                // Kecepatan meluncur ke atas tinggi ala meletus
+                const angle = (Math.random() * Math.PI) + Math.PI; 
+                const speed = Math.random() * 25 + 10;
                 
-                // Ukuran skala bentuk hati disesuaikan dengan layar
-                const scale = Math.min(canvas.width, canvas.height) / 45;
+                this.vx = Math.cos(angle) * (Math.random() * 15 - 7.5);
+                this.vy = Math.sin(angle) * speed;
+                this.gravity = 0.4;
                 
-                this.baseX = canvas.width / 2 + pos.x * scale;
-                this.baseY = canvas.height / 2 + pos.y * scale - 20;
-
-                // Efek tebal/tipis partikel di sekeliling bentuk hati
-                this.x = this.baseX + (Math.random() - 0.5) * 30;
-                this.y = this.baseY + (Math.random() - 0.5) * 30;
-
-                this.size = Math.random() * 2.5 + 1;
-                this.speedX = (Math.random() - 0.5) * 0.8;
-                this.speedY = (Math.random() - 0.5) * 0.8;
+                this.size = Math.random() * 25 + 15;
+                this.alpha = 1;
+                this.decay = Math.random() * 0.015 + 0.005;
                 
-                // Warna Biru Glowing Neon sesuai gambar contoh
-                this.color = `rgba(0, ${Math.floor(Math.random() * 150 + 105)}, 254, ${Math.random() * 0.8 + 0.2})`;
+                const pinkShades = ['#ff007f', '#ff4081', '#ff7597', '#ffb3c1', '#ffffff'];
+                this.color = pinkShades[Math.floor(Math.random() * pinkShades.length)];
             }
 
             update() {
-                this.x += this.speedX;
-                this.y += this.speedY;
-
-                // Kembalikan partikel jika bergerak terlalu jauh dari jalur hati
-                const dx = this.x - this.baseX;
-                const dy = this.y - this.baseY;
-                if (Math.sqrt(dx * dx + dy * dy) > 35) {
-                    this.reset();
-                }
+                this.vx *= 0.98;
+                this.vy += this.gravity; // Efek gravitasi jatuh balik
+                this.x += this.vx;
+                this.y += this.vy;
+                this.alpha -= this.decay;
             }
 
             draw() {
-                ctx.fillStyle = this.color;
-                ctx.shadowBlur = 10;
-                ctx.shadowColor = '#00f2fe';
-                ctx.beginPath();
-                ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
-                ctx.fill();
+                ctx.save();
+                ctx.globalAlpha = Math.max(this.alpha, 0);
+                ctx.font = `${this.size}px serif`;
+                ctx.shadowBlur = 15;
+                ctx.shadowColor = '#ff007f';
+                ctx.fillText('❤️', this.x, this.y);
+                ctx.restore();
             }
         }
 
-        // Membuat 450 partikel untuk membentuk hati yang padat & indah
-        const particles = Array.from({ length: 450 }, () => new HeartParticle());
+        function triggerHeartVolcano(originX, originY) {
+            // Semburan 180 partikel sekaligus
+            for (let i = 0; i < 180; i++) {
+                volcanoParticles.push(new VolcanoParticle(originX, originY));
+            }
+        }
 
-        function animate() {
+        function renderVolcano() {
             ctx.clearRect(0, 0, canvas.width, canvas.height);
-            particles.forEach(p => {
+            for (let i = volcanoParticles.length - 1; i >= 0; i--) {
+                const p = volcanoParticles[i];
                 p.update();
                 p.draw();
-            });
-            requestAnimationFrame(animate);
+                if (p.alpha <= 0) {
+                    volcanoParticles.splice(i, 1);
+                }
+            }
+            requestAnimationFrame(renderVolcano);
         }
-        animate();
+        renderVolcano();
     </script>
 </body>
 </html>
