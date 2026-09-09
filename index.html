@@ -3,8 +3,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Our Story Book ❤️</title>
-    <link href="https://fonts.googleapis.com/css2?family=Great+Vibes&family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
+    <title>Pink Galaxy Love ❤️</title>
+    <link href="https://fonts.googleapis.com/css2?family=Great+Vibes&family=Orbitron:wght@400;700&family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
     
     <style>
         * {
@@ -14,7 +14,7 @@
         }
 
         body {
-            background-color: #0b001a;
+            background-color: #080010;
             min-height: 100vh;
             display: flex;
             flex-direction: column;
@@ -22,190 +22,157 @@
             justify-content: center;
             font-family: 'Poppins', sans-serif;
             overflow: hidden;
+            position: relative;
             color: #fff;
         }
 
-        /* Canvas Partikel Meletus */
-        #volcanoCanvas {
+        /* Canvas Galaxy & Volcano Partikel */
+        #galaxyCanvas {
             position: fixed;
             top: 0;
             left: 0;
             width: 100%;
             height: 100%;
-            z-index: 5;
-            pointer-events: none;
+            z-index: 1;
         }
 
-        /* 1. STAGE AMPLOP SURAT CINTA */
+        /* 1. AMPLOP SURAT CINTA AWAL */
         .envelope-wrapper {
             position: relative;
             z-index: 10;
             cursor: pointer;
             text-align: center;
-            transition: transform 0.5s ease, opacity 0.8s ease;
+            transition: all 0.5s ease;
         }
 
         .envelope-wrapper:hover {
-            transform: scale(1.08);
+            transform: scale(1.1);
         }
 
         .envelope {
-            width: 180px;
-            height: 130px;
-            background: linear-gradient(135deg, #ff4081, #ff7597);
-            border-radius: 15px;
-            position: relative;
-            box-shadow: 0 0 30px rgba(255, 64, 129, 0.8), 0 0 60px rgba(255, 117, 151, 0.4);
+            width: 170px;
+            height: 120px;
+            background: linear-gradient(135deg, #ff1493, #ff69b4);
+            border-radius: 20px;
+            box-shadow: 0 0 30px #ff1493, 0 0 60px #ff69b4;
             display: flex;
             justify-content: center;
             align-items: center;
             margin: 0 auto 20px;
+            position: relative;
         }
 
         .envelope::before {
             content: '💌';
-            font-size: 4rem;
-            filter: drop-shadow(0 0 10px rgba(255,255,255,0.8));
-            animation: pulseHeart 1.5s infinite;
+            font-size: 3.8rem;
+            filter: drop-shadow(0 0 10px #fff);
+            animation: heartPulse 1.5s infinite;
         }
 
         .envelope-text {
             font-family: 'Great Vibes', cursive;
             font-size: 2.2rem;
-            color: #ffb3c1;
-            text-shadow: 0 0 10px #ff4081;
+            color: #ffb6c1;
+            text-shadow: 0 0 12px #ff1493;
         }
 
-        /* 2. STAGE BUKU CERITA (DESAIN 3D BOOK) */
-        .book-stage {
+        /* 2. STAGE GALAXY LOVE (TERSEMBUNYI DI AWAL) */
+        .galaxy-stage {
             position: relative;
             z-index: 10;
             display: none;
             flex-direction: column;
             align-items: center;
+            width: 100%;
+            max-width: 1200px;
             opacity: 0;
-            transition: opacity 1s ease;
+            transition: opacity 1.2s ease;
         }
 
-        .book-stage.active {
+        .galaxy-stage.active {
             display: flex;
             opacity: 1;
         }
 
-        .book-title {
+        .galaxy-title {
             font-family: 'Great Vibes', cursive;
-            font-size: 3.2rem;
-            color: #ff65a3;
-            text-shadow: 0 0 15px #ff007f;
-            margin-bottom: 20px;
+            font-size: 3.5rem;
+            color: #ff69b4;
+            text-shadow: 0 0 15px #ff1493, 0 0 30px #ff1493;
+            margin-bottom: 25px;
         }
 
-        /* BUKU INTERAKTIF */
-        .book {
-            width: 700px;
-            height: 420px;
-            background: rgba(255, 255, 255, 0.05);
-            backdrop-filter: blur(15px);
-            border: 2px solid rgba(255, 105, 180, 0.5);
-            border-radius: 20px;
-            box-shadow: 0 0 40px rgba(255, 0, 128, 0.4), inset 0 0 20px rgba(255, 0, 128, 0.2);
-            display: flex;
-            position: relative;
+        /* --- MARQUEE / TEKS BERJALAN GALAXY --- */
+        .marquee-container {
+            width: 100%;
             overflow: hidden;
+            white-space: nowrap;
+            background: rgba(255, 20, 147, 0.1);
+            border-top: 1px solid rgba(255, 105, 180, 0.4);
+            border-bottom: 1px solid rgba(255, 105, 180, 0.4);
+            padding: 10px 0;
+            margin: 15px 0;
+            box-shadow: 0 0 20px rgba(255, 20, 147, 0.2);
         }
 
-        /* Tulang Tengah Buku */
-        .book::after {
-            content: '';
-            position: absolute;
-            left: 50%;
-            top: 0;
-            width: 4px;
-            height: 100%;
-            background: linear-gradient(180deg, rgba(255,105,180,0.8), rgba(255,0,128,0.2));
-            box-shadow: 0 0 10px #ff007f;
-            z-index: 12;
-            transform: translateX(-50%);
+        .marquee-text {
+            display: inline-block;
+            font-family: 'Poppins', sans-serif;
+            font-size: 1.1rem;
+            color: #ffb6c1;
+            text-shadow: 0 0 8px #ff1493;
+            letter-spacing: 2px;
+            animation: marquee 18s linear infinite;
         }
 
-        /* Sisi Kiri (Foto) & Sisi Kanan (Teks) */
-        .page-left, .page-right {
-            width: 50%;
-            height: 100%;
-            padding: 25px;
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            align-items: center;
+        /* --- FOTO BERJALAN / SLIDER CONTINUOUS --- */
+        .photo-slider-container {
+            width: 100%;
+            overflow: hidden;
+            padding: 30px 0;
             position: relative;
         }
 
-        .page-left img {
+        .photo-track {
+            display: flex;
+            gap: 40px;
+            width: max-content;
+            animation: scrollPhotos 15s linear infinite;
+        }
+
+        .photo-card {
+            width: 240px;
+            height: 320px;
+            border-radius: 20px;
+            overflow: hidden;
+            position: relative;
+            background: rgba(255, 255, 255, 0.05);
+            backdrop-filter: blur(10px);
+            border: 2px solid rgba(255, 105, 180, 0.6);
+            box-shadow: 0 0 25px rgba(255, 20, 147, 0.5), inset 0 0 15px rgba(255, 105, 180, 0.3);
+            transition: transform 0.4s;
+        }
+
+        .photo-card:hover {
+            transform: scale(1.08) translateY(-10px);
+            box-shadow: 0 0 40px rgba(255, 105, 180, 0.9);
+            border-color: #ffffff;
+        }
+
+        .photo-card img {
             width: 100%;
             height: 100%;
-            max-height: 330px;
             object-fit: cover;
-            border-radius: 12px;
-            border: 2px solid rgba(255, 117, 151, 0.6);
-            box-shadow: 0 0 20px rgba(255, 64, 129, 0.5);
         }
 
-        .page-right {
-            text-align: left;
-            padding-left: 35px;
-        }
-
-        .page-number {
-            font-size: 0.9rem;
-            color: #ffb3c1;
-            margin-bottom: 10px;
-            text-transform: uppercase;
-            letter-spacing: 2px;
-        }
-
-        .romantic-text {
-            font-size: 1.15rem;
-            line-height: 1.8;
-            color: #ffffff;
-            text-shadow: 0 0 8px rgba(255,255,255,0.3);
-            font-style: italic;
-        }
-
-        /* Tombol Navigasi Lembaran Buku */
-        .book-nav {
-            display: flex;
-            gap: 20px;
-            margin-top: 25px;
-        }
-
-        .nav-btn {
-            background: rgba(255, 64, 129, 0.2);
-            border: 1px solid rgba(255, 64, 129, 0.6);
-            color: #fff;
-            padding: 10px 25px;
-            border-radius: 30px;
-            cursor: pointer;
-            font-size: 1rem;
-            transition: all 0.3s ease;
-            box-shadow: 0 0 15px rgba(255, 64, 129, 0.3);
-        }
-
-        .nav-btn:hover {
-            background: rgba(255, 64, 129, 0.6);
-            transform: translateY(-3px);
-            box-shadow: 0 0 25px rgba(255, 64, 129, 0.8);
-        }
-
-        /* Responsive untuk HP */
-        @media (max-width: 768px) {
-            .book {
-                width: 90vw;
-                height: auto;
-                flex-direction: column;
-            }
-            .book::after { display: none; }
-            .page-left, .page-right { width: 100%; padding: 15px; }
-            .page-right { text-align: center; padding-left: 15px; }
+        /* Frame Neon Halo */
+        .photo-card::after {
+            content: '';
+            position: absolute;
+            top: 0; left: 0; right: 0; bottom: 0;
+            border-radius: 20px;
+            border: 1px solid rgba(255, 255, 255, 0.4);
+            pointer-events: none;
         }
 
         /* Tombol Musik */
@@ -214,8 +181,8 @@
             top: 20px;
             right: 20px;
             z-index: 100;
-            background: rgba(255, 64, 129, 0.2);
-            border: 1px solid rgba(255, 64, 129, 0.5);
+            background: rgba(255, 20, 147, 0.2);
+            border: 1px solid rgba(255, 105, 180, 0.5);
             width: 45px;
             height: 45px;
             border-radius: 50%;
@@ -223,20 +190,31 @@
             justify-content: center;
             align-items: center;
             cursor: pointer;
-            box-shadow: 0 0 15px rgba(255, 64, 129, 0.5);
+            box-shadow: 0 0 15px rgba(255, 20, 147, 0.6);
             font-size: 1.2rem;
             backdrop-filter: blur(5px);
         }
 
-        @keyframes pulseHeart {
+        /* KEYFRAMES ANIMASI */
+        @keyframes heartPulse {
             0%, 100% { transform: scale(1); }
             50% { transform: scale(1.15); }
+        }
+
+        @keyframes marquee {
+            0% { transform: translateX(100vw); }
+            100% { transform: translateX(-100%); }
+        }
+
+        @keyframes scrollPhotos {
+            0% { transform: translateX(0); }
+            100% { transform: translateX(calc(-280px * 3)); } /* Bergerak looping melintasi 3 foto */
         }
     </style>
 </head>
 <body>
 
-    <canvas id="volcanoCanvas"></canvas>
+    <canvas id="galaxyCanvas"></canvas>
 
     <video id="bgMusic" loop style="display:none;" playsinline>
         <source src="beat.mp4" type="video/mp4">
@@ -248,84 +226,40 @@
 
     <div class="envelope-wrapper" id="envelopeWrapper" onclick="openSurat(event)">
         <div class="envelope"></div>
-        <div class="envelope-text">Buka Surat Cinta ❤️</div>
+        <div class="envelope-text">Buka Galaxy Cinta ❤️</div>
     </div>
 
-    <div class="book-stage" id="bookStage">
-        <h1 class="book-title">Our Love Journey 📖✨</h1>
+    <div class="galaxy-stage" id="galaxyStage">
+        
+        <h1 class="galaxy-title">You Are My Universe ✨❤️</h1>
 
-        <div class="book">
-            <div class="page-left">
-                <img id="bookPhoto" src="j1.jpg" alt="Memory Photo">
-            </div>
-
-            <div class="page-right">
-                <div class="page-number" id="pageNumber">Halaman 1 dari 3</div>
-                <div class="romantic-text" id="romanticText">
-                    "Sejak awal kita bertemu, kamu selalu punya cara untuk membuat hariku terasa lebih indah dan hangat." ❤️
-                </div>
+        <div class="marquee-container">
+            <div class="marquee-text">
+                💖 Aku mencintaimu seluas galaksi ini... ✨ Kamu adalah bintang terindah di semesta hidupku 🌸 Setiap detik bersamamu adalah kenangan manis yang takkan pernah pudar 💕
             </div>
         </div>
 
-        <div class="book-nav">
-            <button class="nav-btn" onclick="prevPage()">⬅️ Lembar Sebelumnya</button>
-            <button class="nav-btn" onclick="nextPage()">Lembar Selanjutnya ➡️</button>
+        <div class="photo-slider-container">
+            <div class="photo-track">
+                <div class="photo-card"><img src="j1.jpg" alt="Galaxy Memory 1"></div>
+                <div class="photo-card"><img src="j2.jpg" alt="Galaxy Memory 2"></div>
+                <div class="photo-card"><img src="j3.jpg" alt="Galaxy Memory 3"></div>
+                <div class="photo-card"><img src="j1.jpg" alt="Galaxy Memory 1"></div>
+                <div class="photo-card"><img src="j2.jpg" alt="Galaxy Memory 2"></div>
+                <div class="photo-card"><img src="j3.jpg" alt="Galaxy Memory 3"></div>
+            </div>
         </div>
+
+        <div class="marquee-container">
+            <div class="marquee-text" style="animation-duration: 22s; animation-direction: reverse;">
+                🌹 I Love You More Than Words Can Say ✨ Selamanya Menyinariku 💖 Kenangan Terindah Bersamamu 💕
+            </div>
+        </div>
+
     </div>
 
     <script>
-        // DATA LEMBARAN BUKU (FOTO + TULISAN ROMANTIS)
-        const pages = [
-            {
-                photo: "j1.jpg",
-                text: "Sejak awal kita bertemu, kamu selalu punya cara untuk membuat hariku terasa lebih indah dan hangat. Terima kasih sudah hadir dalam hidupku. ❤️"
-            },
-            {
-                photo: "j2.jpg",
-                text: "Senyumanmu adalah hal favoritku di dunia ini. Setiap kali melihatmu tersenyum, semua rasa lelahku seketika menghilang. 😊✨"
-            },
-            {
-                photo: "j3.jpg",
-                text: "Tidak peduli seberapa cepat waktu berlalu, harapanku selalu sama: ingin terus mengukir kenangan indah ini selamanya bersamamu. 👩‍❤️‍👨💖"
-            }
-        ];
-
-        let currentPage = 0;
-
-        function updateBookPage() {
-            const photoEl = document.getElementById('bookPhoto');
-            const textEl = document.getElementById('romanticText');
-            const numEl = document.getElementById('pageNumber');
-
-            // Efek transisi halus saat lembaran diganti
-            photoEl.style.opacity = 0;
-            textEl.style.opacity = 0;
-
-            setTimeout(() => {
-                photoEl.src = pages[currentPage].photo;
-                textEl.innerText = `"${pages[currentPage].text}"`;
-                numEl.innerText = `Halaman ${currentPage + 1} dari ${pages.length}`;
-
-                photoEl.style.opacity = 1;
-                textEl.style.opacity = 1;
-            }, 300);
-        }
-
-        function nextPage() {
-            if (currentPage < pages.length - 1) {
-                currentPage++;
-                updateBookPage();
-            }
-        }
-
-        function prevPage() {
-            if (currentPage > 0) {
-                currentPage--;
-                updateBookPage();
-            }
-        }
-
-        // MUSIK & SURAT
+        // --- 1. MUSIK & SURAT ---
         const audio = document.getElementById('bgMusic');
         let isPlaying = false;
 
@@ -350,18 +284,17 @@
             env.style.transform = 'scale(0)';
             setTimeout(() => env.style.display = 'none', 500);
 
-            // Trigger Gunung Meletus Partikel Pink
-            triggerHeartVolcano(e.clientX || window.innerWidth/2, e.clientY || window.innerHeight/2);
+            // Trigger Gunung Meletus Hati Pink
+            triggerVolcano(e.clientX || window.innerWidth/2, e.clientY || window.innerHeight/2);
 
-            // Tampilkan Buku Kenangan
+            // Tampilkan Galaxy Stage
             setTimeout(() => {
-                const bookStage = document.getElementById('bookStage');
-                bookStage.classList.add('active');
-            }, 1000);
+                document.getElementById('galaxyStage').classList.add('active');
+            }, 800);
         }
 
-        // ANIMASI GUNUNG MELETUS (HEART VOLCANO)
-        const canvas = document.getElementById('volcanoCanvas');
+        // --- 2. CANVAS ANIMASI GALAXY PINK & VOLCANO MELETUS ---
+        const canvas = document.getElementById('galaxyCanvas');
         const ctx = canvas.getContext('2d');
 
         function resizeCanvas() {
@@ -371,6 +304,37 @@
         resizeCanvas();
         window.addEventListener('resize', resizeCanvas);
 
+        // Bintang Galaksi Latar Belakang
+        class Star {
+            constructor() {
+                this.reset();
+            }
+            reset() {
+                this.x = Math.random() * canvas.width;
+                this.y = Math.random() * canvas.height;
+                this.size = Math.random() * 2 + 0.5;
+                this.alpha = Math.random() * 0.8 + 0.2;
+                this.speed = Math.random() * 0.02 + 0.005;
+            }
+            update() {
+                this.alpha += this.speed;
+                if (this.alpha > 1 || this.alpha < 0.2) {
+                    this.speed = -this.speed;
+                }
+            }
+            draw() {
+                ctx.fillStyle = `rgba(255, 182, 193, ${this.alpha})`;
+                ctx.shadowBlur = 8;
+                ctx.shadowColor = '#ff69b4';
+                ctx.beginPath();
+                ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
+                ctx.fill();
+            }
+        }
+
+        const stars = Array.from({ length: 150 }, () => new Star());
+
+        // Partikel Hati Meletus (Volcano)
         let volcanoParticles = [];
 
         class VolcanoParticle {
@@ -378,17 +342,17 @@
                 this.x = x;
                 this.y = y;
                 const angle = (Math.random() * Math.PI) + Math.PI; 
-                const speed = Math.random() * 25 + 10;
+                const speed = Math.random() * 28 + 12;
                 
-                this.vx = Math.cos(angle) * (Math.random() * 15 - 7.5);
+                this.vx = Math.cos(angle) * (Math.random() * 20 - 10);
                 this.vy = Math.sin(angle) * speed;
-                this.gravity = 0.4;
+                this.gravity = 0.45;
                 
-                this.size = Math.random() * 25 + 15;
+                this.size = Math.random() * 28 + 15;
                 this.alpha = 1;
                 this.decay = Math.random() * 0.015 + 0.005;
                 
-                const pinkShades = ['#ff007f', '#ff4081', '#ff7597', '#ffb3c1', '#ffffff'];
+                const pinkShades = ['#ff1493', '#ff69b4', '#ffb6c1', '#ffffff', '#ff007f'];
                 this.color = pinkShades[Math.floor(Math.random() * pinkShades.length)];
             }
 
@@ -404,21 +368,30 @@
                 ctx.save();
                 ctx.globalAlpha = Math.max(this.alpha, 0);
                 ctx.font = `${this.size}px serif`;
-                ctx.shadowBlur = 15;
-                ctx.shadowColor = '#ff007f';
+                ctx.shadowBlur = 20;
+                ctx.shadowColor = '#ff1493';
                 ctx.fillText('❤️', this.x, this.y);
                 ctx.restore();
             }
         }
 
-        function triggerHeartVolcano(originX, originY) {
-            for (let i = 0; i < 180; i++) {
+        function triggerVolcano(originX, originY) {
+            for (let i = 0; i < 200; i++) {
                 volcanoParticles.push(new VolcanoParticle(originX, originY));
             }
         }
 
-        function renderVolcano() {
+        // Loop Animasi Utama
+        function render() {
             ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+            // Gambar Galaksi Bintang
+            stars.forEach(s => {
+                s.update();
+                s.draw();
+            });
+
+            // Gambar Partikel Meletus
             for (let i = volcanoParticles.length - 1; i >= 0; i--) {
                 const p = volcanoParticles[i];
                 p.update();
@@ -427,9 +400,10 @@
                     volcanoParticles.splice(i, 1);
                 }
             }
-            requestAnimationFrame(renderVolcano);
+
+            requestAnimationFrame(render);
         }
-        renderVolcano();
+        render();
     </script>
 </body>
 </html>
